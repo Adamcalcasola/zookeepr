@@ -10,6 +10,8 @@ app.use(express.urlencoded({ extended: true}));
 // parse incoming JSON data
 app.use(express.json());
 
+app.use(express.static('public'));
+
 function findById(id, animalsArray) {
     const result = animalsArray.filter(animal => animal.id === id)[0];
     return result;
@@ -83,12 +85,13 @@ app.get('/api/animals/:id', (req, res) => {
     } else {
         res.send(404);
     }
+    return;
 });
 
 app.post('/api/animals', (req, res) => {
     // set id based on wha tthe next index of the array will be
     req.body.id = animals.length.toString();
-
+    
     // if any data in req.body is incorrect, send 400 error back
     if (!validateAnimal(req.body)) {
         res.status(400).send('The animal is not properly formatted.');
@@ -96,6 +99,22 @@ app.post('/api/animals', (req, res) => {
         const animal = createNewAnimal(req.body, animals);
         res.json(animal);
     }
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.listen(PORT, () => {
