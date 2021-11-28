@@ -117,15 +117,6 @@
         "hungry"
       ],
       "id": "11"
-    },
-    {
-      "name": "Larry",
-      "species": "Lemir",
-      "diet": "omnivore",
-      "personalityTraits": [
-        "hungry"
-      ],
-      "id": "12"
     }
   ]
 }
